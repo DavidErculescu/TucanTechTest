@@ -19,6 +19,7 @@ if (!$school) {
     redirect('/pages/schools.php');
 }
 
+// select all members for curent school
 $stmt = $conn->prepare('
     SELECT members.* FROM association
     JOIN members ON 
@@ -92,10 +93,10 @@ showMsgs();
                 <div class="col-lg-10">
                     <select  class="form-control" id="inputSchools" name="schools[]" multiple>
                         <?php
-                        $sql = "SELECT id, name FROM schools";
-                        $result = $conn->query($sql);
+                        // get schools to build UI school multi select
+                        $result = $conn->query("SELECT id, name FROM schools");
                         if ($result->num_rows > 0) {
-                            // output data of each row
+
                             while($row = $result->fetch_assoc()) {
                                 echo  '<option '.($row["id"]==$school["id"] ? "selected='selected'" : "").' value='.$row["id"].'>'.$row["name"].'</option>';
                                 echo '<br>';

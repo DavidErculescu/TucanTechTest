@@ -12,6 +12,7 @@
     ) {
         $conn = DBConnect();
 
+        // save member
         $member_name = $_POST['name'];
         $stmt = $conn->prepare("INSERT INTO members (name, email) VALUES (?, ?)");
         $stmt->bind_param('ss', $member_name, $_POST['email']);
@@ -20,8 +21,9 @@
         $sql = 'SELECT id FROM members WHERE name="' . $member_name . '"';
         $member_id = $conn->query($sql);
 
+        // associate member with schools
         if ($member_id->num_rows > 0) {
-            // output data of each row
+
             while ($row = $member_id->fetch_assoc()) {
                 foreach ($_POST['schools'] as $school_id) {
                     addAssociation($row['id'], $school_id);

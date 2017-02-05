@@ -2,7 +2,7 @@
     include 'lib/functions.php';
     include 'header.php';
 
-    showErrors();
+    showMsgs();
 ?>
 
 

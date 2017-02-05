@@ -3,12 +3,14 @@ include '../lib/functions.php';
 
 $conn = DBConnect();
 
+// get memebers from DB
 $result_member = $conn->query("SELECT * FROM members;");
 
 $members=[];
 while ($member = $result_member->fetch_assoc()) {
     $member['schools']=[];
 
+    // for each member get all the schools he is associated with through the association table
     $stmt = $conn->prepare('
         SELECT schools.name FROM association
         JOIN schools ON 
@@ -19,6 +21,7 @@ while ($member = $result_member->fetch_assoc()) {
     $stmt->execute();
     $result_school = $stmt->get_result();
     while ($school = $result_school->fetch_assoc()) {
+        // add the school name to the member's school list
         $member['schools'][] = $school['name'];
     }
 
@@ -87,10 +90,10 @@ include '../header.php';
             <div class="col-lg-10">
                 <select  class="form-control" id="inputSchools" name="schools[]" multiple>
                     <?php
-                        $sql = "SELECT id, name FROM schools";
-                        $result = $conn->query($sql);
+                        // get schools to build UI school multi select
+                        $result = $conn->query("SELECT id, name FROM schools");
                         if ($result->num_rows > 0) {
-                            // output data of each row
+
                             while($row = $result->fetch_assoc()) {
                                 echo  '<option value='.$row["id"].'>'.$row["name"].'</option>';
                                 echo '<br>';

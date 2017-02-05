@@ -1,11 +1,8 @@
 <?php
     include '../lib/functions.php';
     $conn = DBConnect();
-    $sql = "SELECT * FROM schools";
-    $result = $conn->query($sql);
 
     include '../header.php';
-
 ?>
 
     <h2>Schools</h2>
@@ -23,8 +20,9 @@
         </thead>
         <tbody>
             <?php
+                $result = $conn->query("SELECT * FROM schools");
                 if ($result->num_rows > 0) {
-                    // output data of each row
+                    // output schools
                     while($row = $result->fetch_assoc()) {
                         echo '
                             <tr class="active">
